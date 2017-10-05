@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		       attributeFormDefault="unqualified" 
+		       elementFormDefault="qualified" 
+		       xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="File">
+    <xs:annotation>
+      <xs:documentation>Структура файла-квитанции</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>      
+      <xs:sequence>
+        
+        <xs:element name="AcknowledgementType">
+          <xs:annotation>
+            <xs:documentation>
+              Тип сообщения.
+              8 – сообщение об ошибке в запросе,
+              9 – сообщение об ошибке в ответе,
+              10 – информационное сообщение, не требующее реакции получателя.
+            </xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>            
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="8" />
+              <xs:enumeration value="9" />
+              <xs:enumeration value="10" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+
+        <xs:element name="ResultCode">
+          <xs:annotation>
+            <xs:documentation>Код результата обработки. Текстовый, 4-х значный</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>            
+            <xs:restriction base="xs:string">
+              <xs:pattern value="\d{4}"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+
+        <xs:element name="ResultText">
+          <xs:annotation>
+            <xs:documentation>Текст. Строка от 1 до 254 символов</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>            
+            <xs:restriction base="xs:string">
+              <xs:minLength value="1" />
+              <xs:maxLength value="254" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+
+        <xs:element name="To">
+          <xs:annotation>
+            <xs:documentation>Идентификатор получателя сообщения – участника обмена</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>            
+            <xs:restriction base="xs:string">
+              <xs:pattern value="[BDFKRS][0-9]{13}"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+
+        <xs:element name="From">
+          <xs:annotation>
+            <xs:documentation>Идентификатор отправителя сообщения – участника обмена</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>            
+            <xs:restriction base="xs:string">
+              <xs:pattern value="[BDFKRS][0-9]{13}"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+
+        <xs:element name="MessageID">
+          <xs:annotation>
+            <xs:documentation>
+              Идентификационный номер сообщения.
+              Содержит (повторяет) имя файла квитанции без расширения. Строка от 1 до 100 символов
+            </xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:minLength value="1" />
+              <xs:maxLength value="100" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+
+        <xs:element name="CorrelationMessageID">
+          <xs:annotation>
+            <xs:documentation>
+              Идентификационный номер связанного сообщения.
+              Содержит (повторяет) имя файла проверки, на который сформирована квитанция, без расширения.
+              Строка от 1 до 100 символов
+            </xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:minLength value="1" />
+              <xs:maxLength value="100" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+
+        <xs:element name="MessageType">
+          <xs:annotation>
+            <xs:documentation>Тип сообщения. Строка. Всегда заполняется значением «2»</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>            
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="2" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+
+        <xs:element name="Priority">
+          <xs:annotation>
+            <xs:documentation>Очередность сообщения. Строка. Всегда заполняется значением «5»</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>            
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="5" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+
+        <xs:element name="CreateTime">
+          <xs:annotation>
+            <xs:documentation>Дата в формате ДД.ММ.ГГГГ</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:length value="10"/>
+              <xs:pattern value="(0[1-9]{1}|[1-2]{1}[0-9]{1}|3[0-1]{1})\.(0[1-9]{1}|1[0-2]{1})\.(1[0-9]{3}|20[0-9]{2})"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
